@@ -1,6 +1,7 @@
 from rest_framework import viewsets
 from django.shortcuts import get_object_or_404
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework import filters
 
@@ -34,6 +35,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         post = get_object_or_404(Post, pk=self.kwargs.get('post_id'))
         return post.comments
 
+
 class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     """Read only set for group"""
     queryset = Group.objects.all()
@@ -41,6 +43,7 @@ class GroupViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class FollowViewSet(viewsets.ModelViewSet):
+    """Follow view for authenticated users only"""
     queryset = Follow.objects.all()
     serializer_class = FollowSerializer
     permission_classes = [IsAuthenticated]
