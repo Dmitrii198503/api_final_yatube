@@ -56,7 +56,7 @@ def follow_1(user, another_user):
 
 
 @pytest.fixture
-def follow_2(user_2, user):
+def follow_2(user, user_2):
     from posts.models import Follow
     return Follow.objects.create(user=user_2, following=user)
 
