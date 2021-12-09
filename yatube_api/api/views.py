@@ -44,7 +44,6 @@ class GroupViewSet(viewsets.ReadOnlyModelViewSet):
 
 class FollowViewSet(viewsets.ModelViewSet):
     """Follow view for authenticated users only"""
-    queryset = Follow.objects.all()
     serializer_class = FollowSerializer
     permission_classes = [IsAuthenticated]
     filter_backends = (filters.SearchFilter,)
@@ -52,3 +51,7 @@ class FollowViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+    def get_queryset(self):
+        follow = get_object_or_404(Follow, user=self.request.user)
+        return follow

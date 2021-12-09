@@ -14,7 +14,7 @@ router.register(
 )
 router.register('groups', GroupViewSet, basename='groups')
 router.register(r'groups/(?P<group_id>\d+)/', GroupViewSet)
-router.register('follow', FollowViewSet)
+router.register('follow', FollowViewSet, basename='follow')
 
 urlpatterns = [
     path('v1/', include('djoser.urls')),
