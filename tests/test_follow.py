@@ -30,7 +30,7 @@ class TestFollowAPI:
         )
 
     @pytest.mark.django_db(transaction=True)
-    def test_follow_get(self, user_client, user, another_user, follow_1, follow_3):
+    def test_follow_get(self, user_client, user, follow_1, follow_2, follow_3):
         response = user_client.get('/api/v1/follow/')
         assert response.status_code == 200, (
             'Проверьте, что при GET запросе `/api/v1/follow/` с токеном авторизации возвращается статус 200'
@@ -42,7 +42,7 @@ class TestFollowAPI:
             'Проверьте, что при GET запросе на `/api/v1/follow/` возвращается список'
         )
 
-        assert len(test_data) == Follow.objects.filter(following__username=another_user.username).count(), (
+        assert len(test_data) == Follow.objects.filter(following__username=user.username).count(), (
             'Проверьте, что при GET запросе на `/api/v1/follow/` возвращается список всех подписчиков пользователя'
         )
 
@@ -107,7 +107,8 @@ class TestFollowAPI:
         )
 
     @pytest.mark.django_db(transaction=True)
-    def test_follow_search_filter(self, user_client, follow_1, follow_5,
+    def test_follow_search_filter(self, user_client, follow_1, follow_2,
+                                  follow_3, follow_4, follow_5,
                                   user, user_2, another_user):
 
         follow_user = Follow.objects.filter(user=user)
