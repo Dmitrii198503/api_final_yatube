@@ -29,6 +29,7 @@ class CommentViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
     def perform_create(self, serializer):
+        get_object_or_404(Post, pk=self.kwargs.get('post_id'))
         serializer.save(author=self.request.user)
 
     def get_queryset(self):
@@ -46,6 +47,7 @@ class FollowViewSet(viewsets.ModelViewSet):
     """Follow view for authenticated users only"""
     serializer_class = FollowSerializer
     permission_classes = [IsAuthenticated]
+    http_method_names = ['get', 'post']
     filter_backends = (filters.SearchFilter,)
     search_fields = ('following__username', )
 
